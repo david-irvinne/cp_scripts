@@ -1,1 +1,1 @@
-test
+Personal algorithm and template code for Competitive Programming (C++)
