@@ -1,5 +1,39 @@
 
 struct DSU{
+  int n;
+  vector<int> par, sz;
+  int mx_size = 1, comp;
+
+  DSU(int _n){
+    n = _n;
+    par.resize(n + 1);
+    sz.resize(n + 1);
+    comp = _n;
+    for(int i = 0; i <= n; i++){
+      par[i]=i;
+      sz[i] = 1;
+    }
+  } 
+  int findRep(int a){
+    if(a == par[a]) return a;
+    sz[par[a]]=sz[findRep(par[a])];
+    return par[a] = findRep(par[a]);
+  }
+  bool same(int a, int b){
+    return findRep(a) == findRep(b);
+  }
+  void join(int a, int b){
+    if(same(a, b)) return ;
+    a = findRep(a);
+    b = findRep(b);
+    mx_size = max(mx_size, sz[a] + sz[b]);
+    sz[a] += sz[b];
+    par[b] = a;
+    comp--;
+  }
+};
+
+struct DSU{
 	static const int N = 1e5+5;
 	int par[N], sz[N], mx_size = 1, comp = N;
 

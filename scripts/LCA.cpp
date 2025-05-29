@@ -1,5 +1,3 @@
-#include<bits/stdc++.h>
-using namespace std;
 
 const int N = 1e4+5, LOG = 20;
 int n, m;
@@ -25,7 +23,7 @@ int get_lca(int a, int b){
 	// depth sama node beda
 	for(int j = LOG - 1; j >= 0; j--){
 		if(anc[a][j] != anc[b][j]){
-			a = anc[a][j];
+			a = anc[a][j];	
 			b = anc[b][j];
 		}
 	}
@@ -65,5 +63,4 @@ int main(){
 		cin >> a >> b;
 		cout << get_lca(a, b) << '\n';
 	}
-
 }
