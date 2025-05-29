@@ -1,0 +1,5 @@
+# Abaikan semua file di root dan subfolder yang tidak memiliki ekstensi
+*.
+!*/
+# Tapi jangan abaikan file yang punya ekstensi
+!*.*
