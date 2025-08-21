@@ -16,7 +16,13 @@ struct segment_tree {
     }
     build(ar);
   }
-  // TO-DO: fill this build function
+
+  // TODO: merge behaviour between two nodes
+  T merge(T a, T b){
+    return a, b;
+  }
+
+  // TODO: fill this build function
   void build(vector<T>&ar){
     int n = ar.size();
     // isi leaf nya
@@ -24,14 +30,11 @@ struct segment_tree {
     // isi internal nodes 
     for(int i = sz - 1; i >= 1; i--) tree[i] = merge(tree[2 * i], tree[2 * i + 1]);
   }
-  // TO-DO: merge behaviour between two nodes
-  T merge(T a, T b){
-    return a, b;
-  }
-  // TO-DO: change the default return value of out of range
+
+  // TODO: change the default return value of out of range
   T range_query(int ql, int qr, int t, int tl, int tr){
     if(lazy_propagation && lz[t]){ // check kalau ada update di lz
-      tree[t] += lz[t];
+      tree[t] += lz[t];            // ganti lz update nya kalau query nya bukan range sum
       if(tl != tr){
         lz[2 * t] += lz[t] / 2;
         lz[2 * t + 1] += lz[t] / 2;
@@ -40,14 +43,16 @@ struct segment_tree {
     }
 
     if(ql <= tl && tr <= qr) return tree[t];
-    if(tl > qr || ql > tr) return 0;// default outside value
+    if(tl > qr || ql > tr) return ;// put default outside value
     int mid = (tl + tr) / 2;
     return merge(range_query(ql, qr, 2 * t, tl, mid) , range_query(ql, qr, 2 * t + 1, mid + 1, tr));
   }
+
   T range_query(int ql, int qr){
     return range_query(ql, qr, 1, 0, sz - 1);
   }
-  // TO-DO: updatenya increase apa change?
+
+  // TODO: updatenya increase apa change?
   void point_update(int idx, T new_val){
     idx += sz;
     tree[idx] = new_val;
@@ -55,12 +60,13 @@ struct segment_tree {
       tree[idx] = merge(tree[2 * idx], tree[2 * idx + 1]);
     }
   }
-  // TO-DO: LAZY PROPAGATION, increase range atau update range?
-  void range_update(int ql, int qr, int val, int t, int tl, int tr){
-    if(lz[t]){ // check kalau ada update
+
+  // TODO: LAZY PROPAGATION, increase range atau update range?
+  // CEK TIPE UPDATE-NYA: SUM? MAX? XOR? OR?
+  void range_update(int ql, int qr, int val, int t, int tl, int tr){ if(lz[t]){ // check kalau ada update
       tree[t] += lz[t];
       if(tl != tr){
-        lz[2 * t] += lz[t] / 2;
+        lz[2 * t] += lz[t] / 2;           // HAPUS /2 kalau range-nya MAX QUERY
         lz[2 * t + 1] += lz[t] / 2;
       }
       lz[t] = 0;
@@ -81,6 +87,7 @@ struct segment_tree {
     range_update(ql, qr, val, 2 * t + 1, mid + 1, tr);
     tree[t] = merge(tree[2 * t] , tree[2 * t + 1]);
   }
+
   // implement lazy_propagation
   void range_update(int ql, int qr, int val){
     if(!lazy_propagation){
@@ -114,7 +121,7 @@ struct segment_tree {
     build(ar);
   }
   
-  // TO-DO: fill this build function
+  // TODO: fill this build function
   void build(vector<T>&ar){
     int n = ar.size();
     // isi leaf nya
@@ -122,11 +129,13 @@ struct segment_tree {
     // isi internal nodes 
     for(int i = sz - 1; i >= 1; i--) tree[i] = merge(tree[2 * i], tree[2 * i + 1]);
   }
-  // TO-DO: merge behaviour between two nodes
+  
+  // TODO: merge behaviour between two nodes
   T merge(T&a, T&b){
     return a + b;
   }
-  // TO-DO: change the default return value of out of range
+  
+  // TODO: change the default return value of out of range
   T range_sum(int ql, int qr, int t, int tl, int tr){
     if(ql <= tl && tr <= qr) return tree[t];
     if(tl > qr || ql > tr) return 0;
