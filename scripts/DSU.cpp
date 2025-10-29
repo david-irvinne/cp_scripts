@@ -1,4 +1,3 @@
-
 struct DSU{
   int n;
   vector<int> par, sz;
