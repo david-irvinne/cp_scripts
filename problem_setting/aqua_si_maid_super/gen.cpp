@@ -16,6 +16,10 @@ int main(int argc, char* argv[]){
     for(int i = 0; i < x; i++){
         cout << rnd.next(1, P) << " \n"[i==x-1];
     }
+
+    cout << "david ganteng\n";
+
+    cout << "david ganteng\n";
 }
 
 /*

@@ -1,3 +1,56 @@
+struct LCA {
+  vector<vector<int>> anc;
+  vector<int> depth;
+  int N, LOG;
+
+  LCA(int n, int root, vector<vector<int>>&adj){
+    N = n;
+    LOG = 1;
+    while((1ll << LOG) <= N) LOG++;
+
+    anc.resize(N + 1, vector<int>(LOG));
+    depth.resize(N + 1);
+    fill_anc(root, 0, adj);
+  }
+
+  int get_lca(int a, int b){
+    if(depth[a] > depth[b]) swap(a, b); // buat b lebih dalam
+
+    // samakan depth dari a dan b, b lebih dalam
+    int k = depth[b] - depth[a];
+    for(int j = LOG - 1; j >= 0; j--){
+      if(k >= (1 << j)){
+        k -= (1<<j);
+        b = anc[b][j];
+      }
+    }
+    // depth sama dan node sama
+    if(a == b) return a;
+
+    // depth sama node beda
+    for(int j = LOG - 1; j >= 0; j--){
+      if(anc[a][j] != anc[b][j]){
+        a = anc[a][j];	
+        b = anc[b][j];
+      }
+    }
+    return anc[a][0];
+  }
+
+  void fill_anc(int now, int par, vector<vector<int>>&adj){
+    anc[now][0] = par;
+    for(int i = 1; i < LOG; i++){
+      anc[now][i] = anc[anc[now][i-1]][i-1];
+    }
+    depth[now] = depth[par] + 1;
+    for(int nxt : adj[now]){
+      if(nxt == par) continue;
+      fill_anc(nxt, now, adj);
+    }
+  }
+};
+
+// =========================================================================================
 
 const int N = 1e4+5, LOG = 20;
 int n, m;
