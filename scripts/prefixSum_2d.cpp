@@ -1,10 +1,11 @@
 struct prefsum_2d{
 	int n, m;
 	vector<vector<int>> pf;
-	void init(vector<vector<int>>&ar, int _n, int _m){
+	prefsum_2d(vector<vector<int>>&ar, int _n, int _m){
 		n = _n;
 		m = _m;
 		pf = ar;
+    build();
 	}
 	void build(){
 		for(int i = 1; i <= n; i++){
@@ -24,4 +25,12 @@ struct prefsum_2d{
 		if(c2 > m) c2=m;
 		return pf[r2][c2] - pf[r1-1][c2] - pf[r2][c1-1] + pf[r1-1][c1-1];
 	}
+  void print(){
+    for(int i = 1; i <= n; i++){
+      for(int j = 1; j <= m; j++){
+        cout << pf[i][j] << ' ';
+      }
+      cout << '\n';
+    }
+  }
 };
