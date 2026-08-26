@@ -1,5 +1,10 @@
-*.
-!*/
+# contest cpp at root (except template)
+/*.cpp
 !template.cpp
 
+# compiled binaries at root (single-letter, e.g. a, b, ... k)
+/[a-k]
+
+seleksi_komatik/
+unsubmitted/
 .vscode
