@@ -33,17 +33,17 @@ struct segment_tree {
 
   // TODO: change the default return value of out of range
   T range_query(int ql, int qr, int t, int tl, int tr){
-    if(lazy_propagation && lz[t]){ // check kalau ada update di lz
-      tree[t] += lz[t];            // ganti lz update nya kalau query nya bukan range sum
+    if(lazy_propagation && lz[t]){ 
+      tree[t] += lz[t];            // TODO: sesuaikan node update 
       if(tl != tr){
-        lz[2 * t] += lz[t] / 2;
+        lz[2 * t] += lz[t] / 2;    // TODO: sesuaikan lz update
         lz[2 * t + 1] += lz[t] / 2;
       }
       lz[t] = 0;
     }
 
     if(ql <= tl && tr <= qr) return tree[t];
-    if(tl > qr || ql > tr) return ;// put default outside value
+    if(tl > qr || ql > tr) return ;// TODO: put default outside value
     int mid = (tl + tr) / 2;
     return merge(range_query(ql, qr, 2 * t, tl, mid) , range_query(ql, qr, 2 * t + 1, mid + 1, tr));
   }
@@ -64,16 +64,16 @@ struct segment_tree {
   // TODO: LAZY PROPAGATION, increase range atau update range?
   // CEK TIPE UPDATE-NYA: SUM? MAX? XOR? OR?
   void range_update(int ql, int qr, int val, int t, int tl, int tr){ if(lz[t]){ // check kalau ada update
-      tree[t] += lz[t];
+      tree[t] += lz[t];                    // TODO: sesuaikan node updatenya
       if(tl != tr){
-        lz[2 * t] += lz[t] / 2;           // HAPUS /2 kalau range-nya MAX QUERY
+        lz[2 * t] += lz[t] / 2;           // TODO: sesuaikan lz updatenya  
         lz[2 * t + 1] += lz[t] / 2;
       }
       lz[t] = 0;
     }
 
     if(ql <= tl && tr <= qr){
-      tree[t] += val * (tr - tl + 1); // increase range
+      tree[t] += val * (tr - tl + 1); // TODO: sesuaikan node update nya 
       if(tl != tr){
         lz[2 * t] += val * (tr - tl + 1) / 2;
         lz[2 * t + 1] += val * (tr - tl + 1) / 2;
